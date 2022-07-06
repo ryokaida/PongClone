@@ -1,0 +1,194 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Scripts/ball.gd" type="Script" id=1]
+[ext_resource path="res://Textures/ballTexture.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/player.gd" type="Script" id=3]
+[ext_resource path="res://Textures/Player1PaddleTexture.png" type="Texture" id=4]
+[ext_resource path="res://Textures/Player2PaddleTexture.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/Opponent.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/PongController.gd" type="Script" id=8]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 31.0161
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 15, 32 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 15, 32 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 25.5, 300 )
+
+[sub_resource type="GDScript" id=6]
+script/source = "extends StaticBody2D
+
+
+# Declare member variables here. Examples:
+export var maxScore = 10
+var p1Score = 0
+var p2Score = 0
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 512, 9 )
+
+[node name="PongGame" type="Node"]
+script = ExtResource( 8 )
+
+[node name="Background" type="ColorRect" parent="."]
+margin_left = 2.0
+margin_top = 1.0
+margin_right = 1026.0
+margin_bottom = 601.0
+color = Color( 0.780392, 0.968627, 0.945098, 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="PlayerScore" type="Label" parent="."]
+margin_left = 420.0
+margin_top = 250.0
+margin_right = 459.0
+margin_bottom = 288.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+align = 1
+valign = 1
+
+[node name="OpponentScore" type="Label" parent="."]
+margin_left = 560.0
+margin_top = 250.0
+margin_right = 599.0
+margin_bottom = 288.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+align = 1
+valign = 1
+
+[node name="CountdownTimerLabel" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 476.0
+margin_top = 209.0
+margin_right = -477.0
+margin_bottom = -359.0
+custom_colors/font_color = Color( 0.376471, 0.172549, 0.172549, 1 )
+custom_colors/font_outline_modulate = Color( 0.376471, 0.172549, 0.172549, 1 )
+custom_colors/font_color_shadow = Color( 0.376471, 0.172549, 0.172549, 1 )
+text = "Countdown"
+align = 1
+valign = 1
+
+[node name="winLabel" type="Label" parent="."]
+margin_left = 244.0
+margin_top = 397.0
+margin_right = 791.0
+margin_bottom = 463.0
+custom_colors/font_color = Color( 0, 0.345098, 0.0588235, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0.345098, 0.0588235, 1 )
+custom_colors/font_color_shadow = Color( 0, 0.345098, 0.0588235, 1 )
+align = 1
+valign = 1
+uppercase = true
+
+[node name="ball" type="KinematicBody2D" parent="."]
+position = Vector2( 512, 300 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="ball"]
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ball"]
+shape = SubResource( 1 )
+
+[node name="Player1Paddle" type="KinematicBody2D" parent="."]
+position = Vector2( 40, 300 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+speed = 500
+
+[node name="Sprite" type="Sprite" parent="Player1Paddle"]
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player1Paddle"]
+shape = SubResource( 2 )
+
+[node name="Player2Paddle" type="KinematicBody2D" parent="."]
+position = Vector2( 969, 300 )
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Player2Paddle"]
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2Paddle"]
+shape = SubResource( 3 )
+
+[node name="Player2Goal" type="Area2D" parent="."]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2Goal"]
+position = Vector2( -25.5, 300 )
+shape = SubResource( 4 )
+
+[node name="Player1Goal" type="Area2D" parent="."]
+position = Vector2( 1060, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player1Goal"]
+position = Vector2( -10.5, 300 )
+shape = SubResource( 4 )
+
+[node name="TopWall" type="StaticBody2D" parent="."]
+script = SubResource( 6 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWall"]
+position = Vector2( 512, -9 )
+shape = SubResource( 5 )
+
+[node name="BottomWall" type="StaticBody2D" parent="."]
+position = Vector2( 0, 618 )
+script = SubResource( 6 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomWall"]
+position = Vector2( 512, -9 )
+shape = SubResource( 5 )
+
+[node name="CountdownTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="BounceSound" type="AudioStreamPlayer" parent="."]
+
+[connection signal="body_entered" from="Player2Goal" to="." method="_on_Player2Goal_body_entered"]
+[connection signal="body_entered" from="Player1Goal" to="." method="_on_Player1Goal_body_entered"]
+[connection signal="timeout" from="CountdownTimer" to="." method="_on_CountdownTimer_timeout"]
